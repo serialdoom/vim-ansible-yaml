@@ -152,6 +152,18 @@ snippet apt_repository
 snippet pkgutil
 	pkgutil: state=${1:#present|absent|latest} name=${2:# REQUIRED} site=${3}
 
+snippet wi
+	with_items:
+	  - ${1:}
+snippet apti
+	- name: apt-get ${1:stuff}
+	  apt: name={{ item }} state=${2:present} cache_valid_time=36000 update_cache=yes
+	  with_items:
+	  	- ${3:htop}
+	  tags:
+	    - apt
+	  ${4}
+
 snippet apt
 	apt: >
 		dpkg_options=${1:force-confdef,force-confold}
@@ -749,7 +761,7 @@ snippet synchronize
 		delete=${21:#yes|no}
 
 snippet template
-	template: dest=${1:# REQUIRED} src=${2:# REQUIRED} validate=${3} backup=${4:#yes|no}
+	template: dest=${1:# REQUIRED} src=${2:# REQUIRED}
 
 snippet bigip_node
 	bigip_node: >
