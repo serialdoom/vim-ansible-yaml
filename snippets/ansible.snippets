@@ -2657,3 +2657,41 @@ snippet assemble
 		backup=${16:#yes|no}
 		setype=${17}
 
+snippet ta
+	tags:
+	  - ${1:}
+snippet wi
+	with_items:
+	  - ${1:}
+snippet templ
+	- name: deploy ${1:stuff}
+	  template:
+	    src: ${2:src}
+		  dest: ${3:dest}${4:}
+snippet fdir
+	- name: create ${1:directories}
+	  file:
+	    path: ${2:/tmp}
+	    state: ${3:directory}
+snippet serv
+	- name: ${1:restart} ${2:something}
+	  service:
+	    name: $2
+		  state: $1ed
+snippet lif
+	- name: ${1:do something to} ${2:file}
+	  lineinfile:
+	    dest: $2
+		  lineinfile: ${3}
+snippet wget
+	- name: wget ${1:stuff}
+	  get_url:
+	    url: "${2:http://download.me}"
+		dest: ${3:/tmp}
+snippet unarch
+	- name: unarchive ${1:stuff}
+	  unarchive:
+	    src: ${2:/path/to/something}
+		dest: ${3:/tmp}
+		copy: ${4:false}
+		${5:creates: $3}
