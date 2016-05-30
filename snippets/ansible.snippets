@@ -157,7 +157,11 @@ snippet wi
 	  - ${1:}
 snippet apti
 	- name: apt-get ${1:stuff}
-	  apt: name={{ item }} state=${2:present} cache_valid_time=36000 update_cache=yes
+	  apt:
+		  name: '{{ item }}'
+		  state: ${2:present}
+		  cache_valid_time: 36000
+		  update_cache: yes
 	  with_items:
 	  	- ${3:htop}
 	  tags:
