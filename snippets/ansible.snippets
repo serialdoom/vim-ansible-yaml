@@ -155,7 +155,7 @@ snippet pkgutil
 snippet wi
 	with_items:
 	  - ${1:}
-snippet apti
+snippet apt
 	- name: apt-get ${1:stuff}
 	  apt:
 		  name: '{{ item }}'
@@ -167,20 +167,6 @@ snippet apti
 	  tags:
 	    - apt
 	  ${4}
-
-snippet apt
-	apt: >
-		dpkg_options=${1:force-confdef,force-confold}
-		upgrade=${2:#yes|safe|full|dist}
-		force=${3:#yes|no}
-		name=${4}
-		purge=${5:#yes|no}
-		state=${6:#latest|absent|present}
-		update_cache=${7:#yes|no}
-		default_release=${8}
-		cache_valid_time=${9:false}
-		deb=${10}
-		install_recommends=${11:#yes|no}
 
 snippet svr4pkg
 	svr4pkg: >
@@ -2526,6 +2512,14 @@ snippet mysql_db
 		collation=${9}
 		target=${10}
 
+snippet lif
+	- name: ${1: replace something}
+	  lineinfile:
+	    dest: ${2:/etc/hosts}
+		  line: ${3:}
+		  regexp: ${4:}
+	  tags:
+	  	- ${5:config}
 snippet lineinfile
 	lineinfile: >
 		dest=${1:# REQUIRED}
@@ -2622,25 +2616,11 @@ snippet uri
 		timeout=${26:30}
 
 snippet replace
-	replace: >
-		dest=${1:# REQUIRED}
-		path=${2:[]}
-		regexp=${3:# REQUIRED}
-		force=${4:#yes|no}
-		state=${5:#file|link|directory|hard|touch|absent}
-		selevel=${6:s0}
-		replace=${7}
-		owner=${8}
-		validate=${9}
-		src=${10}
-		group=${11}
-		seuser=${12}
-		recurse=${13:#yes|no}
-		setype=${14}
-		serole=${15}
-		mode=${16}
-		backup=${17:#yes|no}
-
+	- name: replace ${1:}
+	  replace:
+	    dest: ${2:}
+	    regexp: '${3:}'
+	    replace: '${4:}'
 snippet assemble
 	assemble: >
 		dest=${1:# REQUIRED}
@@ -2682,11 +2662,6 @@ snippet serv
 	  service:
 	    name: $2
 		  state: $1ed
-snippet lif
-	- name: ${1:do something to} ${2:file}
-	  lineinfile:
-	    dest: $2
-		  lineinfile: ${3}
 snippet wget
 	- name: wget ${1:stuff}
 	  get_url:
@@ -2699,3 +2674,10 @@ snippet unarch
 		dest: ${3:/tmp}
 		copy: ${4:false}
 		${5:creates: $3}
+snippet mkdir
+	- name: create ${1:}directories
+	  file:
+	    path: '{{ item }}'
+		  state: directory
+	  with_items:
+	    - ${2:}
